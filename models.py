@@ -7,6 +7,8 @@ class Ridge_Regression:
 
     def __init__(self, lambd):
         self.lambd = lambd
+        self.w = None
+
 
     def fit(self, X, Y):
 
@@ -24,7 +26,13 @@ class Ridge_Regression:
         # you may not use np.linalg.solve, but you may use np.linalg.inv
 
         ####################################
-        pass
+        transposed_x = np.transpose(X)
+        n_train, d_train = X.shape
+        lambd_id = self.lambd*np.identity(d_train)
+        t_x = np.matmul(transposed_x,X)/n_train
+        inv = np.linalg.inv(t_x + lambd_id)
+        t_y = (np.matmul(transposed_x,Y))/n_train
+        self.w = np.matmul(inv,t_y)
 
     def predict(self, X):
         """
@@ -42,7 +50,7 @@ class Ridge_Regression:
 
         # transform the labels to 0s and 1s, instead of -1s and 1s.
         # You may remove this line if your code already outputs 0s and 1s.
-        preds = (preds + 1) / 2
+        preds = np.where(np.matmul(X, self.w) > 0, 1, 0)
 
         return preds
 

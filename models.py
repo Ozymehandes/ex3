@@ -9,16 +9,14 @@ class Ridge_Regression:
         self.lambd = lambd
         self.w = None
 
-
     def fit(self, X, Y):
-
         """
         Fit the ridge regression model to the provided data.
         :param X: The training features.
         :param Y: The training labels.
         """
 
-        Y = 2 * (Y - 0.5) # transform the labels to -1 and 1, instead of 0 and 1.
+        Y = 2 * (Y - 0.5)  # transform the labels to -1 and 1, instead of 0 and 1.
 
         ########## YOUR CODE HERE ##########
 
@@ -28,11 +26,11 @@ class Ridge_Regression:
         ####################################
         transposed_x = np.transpose(X)
         n_train, d_train = X.shape
-        lambd_id = self.lambd*np.identity(d_train)
-        t_x = np.matmul(transposed_x,X)/n_train
+        lambd_id = self.lambd * np.identity(d_train)
+        t_x = transposed_x @ X / n_train
         inv = np.linalg.inv(t_x + lambd_id)
-        t_y = (np.matmul(transposed_x,Y))/n_train
-        self.w = np.matmul(inv,t_y)
+        t_y = transposed_x @ Y / n_train
+        self.w = inv @ t_y
 
     def predict(self, X):
         """
@@ -53,7 +51,6 @@ class Ridge_Regression:
         preds = np.where(np.matmul(X, self.w) > 0, 1, 0)
 
         return preds
-
 
 
 class Logistic_Regression(nn.Module):

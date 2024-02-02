@@ -6,7 +6,7 @@ def main():
     valid_vals, valid_lbls, valid_cols = read_data('validation.csv')
     test_vals, test_lbls, test_cols = read_data('test.csv')
 
-    lambd_set = [0,2,4,6,8,10]
+    lambd_set = np.array([0,2,4,6,8,10])
     models = np.empty(len(lambd_set), dtype=object)
     train_acc = np.zeros(len(lambd_set))
     valid_acc = np.zeros(len(lambd_set))
@@ -20,9 +20,15 @@ def main():
         valid_acc[i] = np.mean(model.predict(valid_vals) == valid_lbls)
         test_acc[i] = np.mean(model.predict(test_vals) == test_lbls)
         models[i] = model
-
-
+    
+    # Plot train acc's
+    plt.scatter(lambd_set, train_acc)
+    plt.title('Train accuracies') 
+    plt.xlabel('Lambda')
+    plt.ylabel('Accuracy')
+    plt.show()
+    
 
 
 if __name__ == '__main__':
-    pass
+    main()
